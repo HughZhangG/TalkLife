@@ -19,9 +19,8 @@ package com.gu.cheng.talklife.data.source.remote;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.google.common.collect.Lists;
+import com.gu.cheng.talklife.data.Task;
+import com.gu.cheng.talklife.data.source.TasksDataSource;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
