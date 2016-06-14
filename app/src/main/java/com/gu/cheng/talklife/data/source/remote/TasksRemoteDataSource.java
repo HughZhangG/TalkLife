@@ -16,7 +16,6 @@
 
 package com.gu.cheng.talklife.data.source.remote;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.gu.cheng.talklife.data.Task;
@@ -24,6 +23,7 @@ import com.gu.cheng.talklife.data.source.TasksDataSource;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,21 +58,14 @@ public class TasksRemoteDataSource implements TasksDataSource {
         TASKS_SERVICE_DATA.put(newTask.getId(), newTask);
     }
 
-    /**
-     * Note: {@link LoadTasksCallback#onDataNotAvailable()} is never fired. In a real remote data
-     * source implementation, this would be fired if the server can't be contacted or the server
-     * returns an error.
-     */
     @Override
-    public void getTasks(final @NonNull LoadTasksCallback callback) {
-        // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callback.onTasksLoaded(Lists.newArrayList(TASKS_SERVICE_DATA.values()));
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+    public List<Task> getTasks() {
+        // Simulate network
+        try {
+            Thread.sleep(SERVICE_LATENCY_IN_MILLIS);
+        } catch (InterruptedException e) {
+        }
+        return Lists.newArrayList(TASKS_SERVICE_DATA.values());
     }
 
     /**
@@ -81,26 +74,25 @@ public class TasksRemoteDataSource implements TasksDataSource {
      * returns an error.
      */
     @Override
-    public void getTask(@NonNull String taskId, final @NonNull GetTaskCallback callback) {
+    public Task getTask(@NonNull String taskId) {
         final Task task = TASKS_SERVICE_DATA.get(taskId);
 
         // Simulate network by delaying the execution.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                callback.onTaskLoaded(task);
-            }
-        }, SERVICE_LATENCY_IN_MILLIS);
+        try {
+            Thread.sleep(SERVICE_LATENCY_IN_MILLIS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return task;
     }
 
     @Override
-    public void saveTask(Task task) {
+    public void saveTask(@NonNull Task task) {
         TASKS_SERVICE_DATA.put(task.getId(), task);
     }
 
     @Override
-    public void completeTask(Task task) {
+    public void completeTask(@NonNull Task task) {
         Task completedTask = new Task(task.getTitle(), task.getDescription(), task.getId(), true);
         TASKS_SERVICE_DATA.put(task.getId(), completedTask);
     }
@@ -112,7 +104,7 @@ public class TasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public void activateTask(Task task) {
+    public void activateTask(@NonNull Task task) {
         Task activeTask = new Task(task.getTitle(), task.getDescription(), task.getId());
         TASKS_SERVICE_DATA.put(task.getId(), activeTask);
     }
@@ -146,7 +138,7 @@ public class TasksRemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public void deleteTask(String taskId) {
+    public void deleteTask(@NonNull String taskId) {
         TASKS_SERVICE_DATA.remove(taskId);
     }
 }
