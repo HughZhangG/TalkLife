@@ -11,4 +11,19 @@ public class DetailFragment extends Fragment implements DetailContract.View{
     public void setPresenter(DetailContract.Presenter presenter) {
 
     }
+
+    @Override
+    public void setTitle(String title) {
+
+    }
+
+    @Override
+    public void setContent(String content) {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
 }
